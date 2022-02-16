@@ -7,13 +7,22 @@ describe Bookmark do
 			conn = PG.connect( dbname: 'bookmark_manager_test' ) 
 
       # Add the test data
-      conn.exec("INSERT INTO bookmarks (url) VALUES ('http://www.makersacademy.com');")
-      conn.exec("INSERT INTO bookmarks (url) VALUES('http://www.google.com');")
+      Bookmark.add('http://www.makersacademy.com')
+      Bookmark.add("http://www.google.com")
 
       bookmarks = Bookmark.all
 
       expect(bookmarks).to include("http://www.makersacademy.com")
       expect(bookmarks).to include("http://www.google.com")
+    end
+
+  end
+
+  describe '#add' do
+    it "adds to the list" do
+      Bookmark.add("http://www.myspace.com")
+      bookmarks = Bookmark.all
+      expect(bookmarks).to include("http://www.myspace.com")
     end
   end
 end
